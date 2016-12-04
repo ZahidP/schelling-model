@@ -126,20 +126,56 @@ const chooseType = (types) => {
  * @param satisfactionGrid The grid used to determine which positions are satisfied.
  **/
 const updateTiles = (n, grid, satisfactionGrid) => {
-    // generate tiles to check
-    const toCheck = toCheck();
+
+    const neighborsEmpty = (grid, row, col) => {
+      if (oobCheck(row, col ) && grid[row][col] === 0) {
+        return true;
+      }
+    }
+
+    const hasEmptyNeighbors = (row, col) => {
+      const hasEmpty = checkSurroundingTilesAnd(neighborsEmpty)
+      return hasEmpty(row, col) || false;
+    }
+
+    const generateTilesToCheck = (n, height, width) => {
+      let toCheck = [];
+      for (let i = 0; i < n; i++) {
+        toCheck.push({
+          row: Math.random() * height,
+          col: Math.random() * width
+        });
+      }
+      return toCheck;
+    };
+
+    const moveToEmpty = (current, empty) => {
+      const {cRow, cCol} = current;
+      const {eRow, eCol} = empty;
+
+      // do the swippity swap
+      grid[eRow][eCol] = grid[cRow][cCol];
+      return grid;
+    }
+
+    const toCheck = generateTilesToCheck(n, grid.length, grid[0].length);
+    const oobCheck = oobCheckGen(grid.length, grid[0].length);
 
     // iterate through those tiles:
+    let updatedGrid = [];
+    let updatedTiles = []
     toCheck.forEach((pair) => {
       // (condition check) hasEmptyNeighbors()
-      if (hasEmptyNeighbors(pair.row, pair.col)) {
+      if (hasEmptyNeighbors(pair.row, pair.col) && satisfactionGrid[pair.row][pair.col] === 0) {
         // (condition: true) moveToEmpty()
-        moveToEmpty(pair.row, pair.col, empty);
+        updatedGrid = moveToEmpty(pair, empty);
+        updatedTiles.push([pair.row, pair.col]);
       } else {
         // (condiiton: false) swap()
         console.log("Swap not implemented");
       }
     });
+    return updatedGrid;
 }
 
 // const hasEmptyNeighbors = (row, col) => {
@@ -153,31 +189,17 @@ const updateTiles = (n, grid, satisfactionGrid) => {
 //   return false;
 // }
 
-const generateTilesToCheck = (n, height, width) => {
-  let toCheck = [];
-  for (let i = 0; i < n, i++) {
-    toCheck.push({
-      row: Math.random() * height,
-      col: Math.random() * width
-    });
-  }
-  return toCheck;
-};
 
 
-const moveToEmpty(current, empty) => {
-  const {cRow, cCol} = current;
-  const {eRow, eCol} = empty;
-
-  // do the swippity swap
-
-}
 
 
-const hasEmptyNeighbors = (row, col) => {
-  const hasEmpty = checkSurroundingTilesAnd(hasEmptyNeighbors)(row, col)
-  return hasEmpty || false;
-}
+
+
+
+
+
+
+
 
 
 
