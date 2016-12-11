@@ -1,0 +1,22 @@
+/* Styles for the control panel */
+
+
+#controls {
+	margin-top: 36px;
+}
+
+.controls-buttons-row {
+	margin: 24px 12px 12px;
+}
+
+.control-button {
+	width: 144px;
+}
+
+.form-control.control-input {
+	width: 80%;
+	height: 40px;
+	padding: 8px;
+	font-size: 24px;
+	font-weight: 300;
+}

@@ -1,4 +1,5 @@
-import {Component} from "react";
+import React, {Component} from "react";
+import "./controls.css";
 
 
 
@@ -26,19 +27,26 @@ export default class GridVisual extends Component {
 
 		return (
 			<div id="controls" className="row">
-				<div className="row">
+				<div className="controls-buttons-row row">
 					<div className="col-md-4 start">
-						<button onClick={startHandler}>
+						<button
+							id="start-button"
+							className="btn btn-primary control-button"
+							onClick={startHandler}>
 							Start
 						</button>
 					</div>
 					<div className="col-md-4 next-step">
-						<button onClick={nextStepHandler}>
+						<button
+							className="btn btn-primary control-button"
+							onClick={nextStepHandler}>
 							Next Step
 						</button>
 					</div>
 					<div className="col-md-4 restart">
-						<button onClick={clearHandler}>
+						<button
+							className="btn btn-primary control-button"
+							onClick={clearHandler}>
 							Clear
 						</button>
 					</div>
@@ -47,16 +55,19 @@ export default class GridVisual extends Component {
 					<div className="col-md-4">
 						Number of Types
 						<input
+							className="form-control control-input"
 							onChange={updateNumberOfTypes}
-							type="text" 
+							max={5}
+							type="number"
 						/>
 					</div>
 					<div className="col-md-4">
 						Number of Tiles
 						<input
+							className="form-control control-input"
 							onChange={updateNumberOfTiles}
-							type="text"
-						/>
+							max={100}
+							type="number"/>
 					</div>
 				</div>
 			</div>
