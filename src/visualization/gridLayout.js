@@ -1,9 +1,9 @@
 import * as d3 from "d3";
 
 const colorLookup = {
-	a: "green",
-	b: "blue",
-	c: "red",
+	a: "rgb(100,180,120)",
+	b: "rgb(100,120,180)",
+	c: "rgb(180,100,100)",
 	d: "yellow",
 	e: "black",
 };
@@ -12,7 +12,7 @@ const getColor = (cType) => {
 	if (cType !== undefined) {
 		return colorLookup[cType];
 	} else {
-		return "white";
+		return "rgb(140,140,140)";
 	}
 };
 
@@ -25,16 +25,19 @@ export const renderGrid = (grid, domNode) => {
 	const squareMapping = grid.map((row, rowIndex) => {
 		return row.map((col, colIndex) => {
 			return {
-				x_axis: colIndex * 5,
-				y_axis: rowIndex * 5,
-				height: 20,
-				width: 20,
+				x_axis: colIndex * 30,
+				y_axis: rowIndex * 30,
+				height: 30,
+				width: 30,
 				color: getColor(col.name)
 			};
 		});
 	});
 
-	const reducedMapping = squareMapping.reduce((a, b) => {
+	/**
+	* We need to flatten the row[col, col, col] structure
+	**/
+	const flattenedMapping = squareMapping.reduce((a, b) => {
 		return a.concat(b);
 	}, []);
 
@@ -42,12 +45,12 @@ export const renderGrid = (grid, domNode) => {
 		d3.select("svg").remove();
 	}
 
-	const svgContainer = d3.select(domNode).append("svg").attr("width", 600).attr("height", 600);
+	const svgContainer = d3.select(domNode).append("svg").attr("width", 900).attr("height", 600);
 
-	const square = svgContainer.selectAll("square")
-		.data(reducedMapping)
+	const square = svgContainer.selectAll("rect")
+		.data(flattenedMapping)
 		.enter()
-		.append("square");
+		.append("rect");
 
 	square.attr("x", function(d) {
 		return d.x_axis;
@@ -55,10 +58,12 @@ export const renderGrid = (grid, domNode) => {
 		return d.y_axis;
 	}).attr("height", function(d) {
 		return d.height;
-	}).attr("weight", function(d) {
+	}).attr("width", function(d) {
 		return d.width;
 	}).style("fill", function(d) {
 		return d.color;
+	}).style("stroke", function(d) {
+		return "black";
 	});
 
 };

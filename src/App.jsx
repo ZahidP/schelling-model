@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Controls from "./components/Controls.jsx";
 import GridVisual from "./components/GridMap.jsx";
 import * as ModelActions from "./actions/actions";
+import "./App.css";
 
 export class AppPresenter extends Component {
 
